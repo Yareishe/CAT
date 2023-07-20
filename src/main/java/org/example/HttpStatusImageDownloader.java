@@ -12,14 +12,13 @@ import java.net.URLConnection;
 public class HttpStatusImageDownloader {
     public static void main(String[] args) throws IOException {
         HttpStatusImageDownloader httpStatusImageDownloader = new HttpStatusImageDownloader();
-        httpStatusImageDownloader.downloadStatusImage(404);
+        httpStatusImageDownloader.downloadStatusImage(1000);
     }
 
     public void downloadStatusImage(int code) throws IOException {
         HttpStatusChecker httpStatusChecker = new HttpStatusChecker();
         String noteror = httpStatusChecker.getStatusImage(code);
-        try {
-
+        if (noteror != null) {
             URL url = new URL(noteror);
             URLConnection connection = url.openConnection();
             InputStream inputStream = connection.getInputStream();
@@ -31,9 +30,9 @@ public class HttpStatusImageDownloader {
             }
             outputStream.close();
             inputStream.close();
-        }catch (IOException e){
+        }
+        else {
             System.out.println("Failed to download image. " + code);
-            e.printStackTrace();
         }
     }
 
