@@ -11,8 +11,10 @@ public class HttpStatusChecker {
         int responseCode = connection.getResponseCode();
         connection.disconnect();
         if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-            throw new RuntimeException("don't know this is the code " + code);
+            System.out.println("don't know this is the code " + code);
+            url = null;
         }
         return url;
     }
+
 }
