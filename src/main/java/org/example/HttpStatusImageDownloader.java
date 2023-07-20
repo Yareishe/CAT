@@ -14,11 +14,11 @@ public class HttpStatusImageDownloader {
         HttpStatusImageDownloader httpStatusImageDownloader = new HttpStatusImageDownloader();
         httpStatusImageDownloader.downloadStatusImage(1000);
     }
-
     public void downloadStatusImage(int code) throws IOException {
         HttpStatusChecker httpStatusChecker = new HttpStatusChecker();
-        String noteror = httpStatusChecker.getStatusImage(code);
-        if (noteror != null) {
+
+        try {
+            String noteror = httpStatusChecker.getStatusImage(code);
             URL url = new URL(noteror);
             URLConnection connection = url.openConnection();
             InputStream inputStream = connection.getInputStream();
@@ -30,11 +30,15 @@ public class HttpStatusImageDownloader {
             }
             outputStream.close();
             inputStream.close();
-        }
-        else {
-            System.out.println("Failed to download image. " + code);
+        } catch (HttpStatusChecker.ImageNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Failed to download image. Code: " + code);
+            e.printStackTrace();
         }
     }
+
+
 
 }
 
